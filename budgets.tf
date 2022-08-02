@@ -1,6 +1,7 @@
 module "budgets" {
   count = var.enable_budget ? 1 : 0
-  source = "./modules/budgets"
+  source = "shadbury/budget/aws"
+  version = "1.0.0"
 
   budget_name                       = var.budget_name
   budget_type                       = var.budget_type
