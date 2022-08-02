@@ -1,6 +1,13 @@
 #!/usr/bin/env make
 include Makehelp
 
+# Targets
+# This init target is only used when first deploying the backend. It should be commented out once the backend exists.
+# Initialise Terraform
+# init: .env
+# 	docker-compose run --rm envvars ensure --tags terraform-init
+# 	docker-compose run --rm terraform-utils sh -c 'cd ${TERRAFORM_ROOT_MODULE}; terraform init'
+# .PHONY: init
 
 ## Initialise Terraform
 init: .env
@@ -11,7 +18,7 @@ init: .env
 ## Initialise Terraform but also upgrade modules/providers
 upgrade: .env init
 	docker-compose run --rm envvars ensure --tags terraform-init
-	docker-compose run --rm terraform-utils sh -c 'cd ${TERRAFORM_ROOT_MODULE}; terraform init -upgrade ${BACKEND_CONFIG}'
+	docker-compose run --rm terraform-utils sh -c 'cd ${TERRAFORM_ROOT_MODULE}; terraform init -upgrade'
 .PHONY: upgrade
 
 ## Generate a plan
