@@ -18,9 +18,13 @@ each repo can be deployed centrally but requires the following variables
 
 this repo will use a gitlab runner with varibles sent from customer central
 
-## Deployment
+## Usage
 
-This is a terraform module, examples have been added into the example folder.
-
-A readme will be created shortly
+```hcl
+module "onboarding" {
+  source  = "shadbury/onboarding/aws"
+  version = "1.0.0"
+  
+}
+```
 
