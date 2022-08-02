@@ -1,7 +1,7 @@
 resource "aws_budgets_budget" "budget" {
   name              = var.budget_name
   budget_type       = var.budget_type
-  time_period_start = var.budget_time_period_start_default ? timestamp() : var.budget_time_period_start
+  time_period_start = var.budget_time_period_start_default ? formatdate("YYYY-MM-DD_hh:mm ZZZ", timestamp()) : var.budget_time_period_start
   limit_amount      = var.budget_limit
   limit_unit        = var.budget_unit
   time_unit         = var.budget_time_unit
