@@ -6,8 +6,26 @@
 module "onboarding" {
   source  = "shadbury/onboarding/aws"
   version = "1.0.0"
+
+  # required
+
   profile = "<aws profile name or ID>"
   region  = "<aws region>"
+
+  # budget - minimal recommended values
+  budget_subscriber_email_addresses = ["name@domain.com"]
+  budget_limit = 1000
+
+  # Patch Alerting - Minimal recommended values
+
+  patch_alerting_recepients = "name@domain.com"
+  patch_alerting_sender     = "name@domain.com"
+
+  # Monitoring - Minimal reccomended values
+
+  root_monitoring_role_name = "root-account-name" # the name of the role that will assume role into the monitoring role
+  root_monitoring_account   = "0123456789" # account ID for the root_monitoring_role_name
+  monitoring_role_name      = "new-monitoring-role-name" # name of the new role created for monitoring in selected account.
 }
 ```
 
