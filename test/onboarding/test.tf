@@ -1,6 +1,6 @@
 module "onboarding" {
   source  = "shadbury/onboarding/aws"
-  version = "1.0.4"
+  version = "1.0.0"
 
   profile                   = local.workspace["profile"]
   region                    = local.workspace["region"]
