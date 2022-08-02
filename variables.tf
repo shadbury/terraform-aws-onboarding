@@ -320,7 +320,7 @@ variable "patch_alerting_recepients" {
     default     = ""
 }
 
-variable "patch_alerting_sender" {yesshad
+variable "patch_alerting_sender" {
     type        = string
     description = "email to send patching alerts"
     default     = ""
