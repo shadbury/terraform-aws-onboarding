@@ -6,21 +6,9 @@ variable "enable_patching" {
     default     = true
 }
 
-variable "enable_gitlab_runner" {
-  type          = bool
-  description   = "Setup gitlab runner"
-  default       = true
-}
-
 variable "enable_budget" {
     type        = bool
     description = "Setup Patching for client"
-    default     = true
-}
-
-variable "enable_patch_alerting" {
-    type        = bool
-    description = "setup alerting for patching"
     default     = true
 }
 
@@ -30,11 +18,6 @@ variable "enable_backups" {
     default     = true
 }
 
-variable "enable_grafana_monitoring" {
-    type        = bool
-    description = "Deploy role for grafana monitoring"
-    default     = true
-}
 
 # required profile
 
@@ -113,7 +96,7 @@ variable "backup_selection_tags" {
   description = "An array of tag condition objects used to filter resources based on tags for assigning to a backup plan"
   default     = [
           {
-            key   = "aws:ResourceTag/cmd:backup"
+            key   = "aws:ResourceTag/backup"
             value = "standard"
             }
         ]
@@ -219,21 +202,6 @@ variable "patching_max_errors" {
   default     = 10
 }
 
-
-# Patch Alertng
-
-variable "patch_alerting_recepients" {
-    type        = string
-    description = "email to receive patching alerts"
-    default     = "managedservices@cmd.com.au"
-}
-
-variable "patch_alerting_sender" {
-    type        = string
-    description = "email to send patching alerts"
-    default     = "managedservices@cmd.com.au"
-}
-
 # Budgets
 
 variable "budget_comparison_operator" {
@@ -263,7 +231,7 @@ variable "budget_notification_type" {
 variable "budget_subscriber_email_addresses" {
     type        = list(string)
     description = "Email for notifications"
-    default     = ["managedservices@cmd.com.au"]
+    default     = [""]
 }
 
 variable "budget_unit" {
@@ -307,47 +275,4 @@ variable "budget_type" {
     type        = string
     description = "budget type"
     default     = "COST"
-}
-
-# Gitlab Runner
-
-variable "gitlab_vpc_name" {
-  type        = string
-  description = "The name of the VPC to add the gitlab runner"
-  default     = "mgmt"
-}
-
-variable "gitlab_url" {
-  type        = string
-  description = "URL of the gitlab runner"
-  default     = "https://gitlab.runcmd.cmdsolutions.com.au/"
-}
-
-variable "gitlab_instance_type" {
-  type        = string
-  description = "Type of instance for gitlab runner"
-  default     = "t3a.large"
-}
-
-variable "gitlab_concurrency" {
-  type        = number
-  description = "concurrency of gitlab runner"
-  default     = 10
-}
-
-variable "gitlab_runner_domain" {
-  type        = string
-  description = "domain name for the gitlab runner"
-  default     = "mgmt-int.runcmd.cmdsolutions.com.au"
-}
-
-variable "client" {
-  type        = string
-  description = "name of the client"
-}
-
-variable "gitlab_runner_use_private_subnet" {
-  type        = bool
-  description = "true or false to use private subnets"
-  default     = true
 }
