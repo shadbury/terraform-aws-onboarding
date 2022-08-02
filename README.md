@@ -43,6 +43,7 @@ To disable the above resources, enter the following into the module block
 ```
 enable_monitoring     = false
 enable_patch_alerting = false
+```
 
 ## Monitoring
 
