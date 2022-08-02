@@ -13,36 +13,101 @@ module "onboarding" {
 
 ## Details
 
-This module has been created to assist with the onboarding process (setting up patching, backups and budgets)
+This module has been created to assist with the onboarding process
 
 The module contains.
 
 - AWS BACKUP
 - Patch Manager
 - AWS BUDGETS
+- Monitoring
+- Patch Alerting
 
 
 # Required Variables
 
-### Profile
+## Profile
 
 ```
 profile = "<AWS account ID>"
 ```
 
-### Region
+# Conditional Required Variables
+
+The following Variables are only required if the follow resources are to be deployed
+
+``Monitoring``, ``Patch Alerting``
+
+To disable the above resources, enter the following into the module block
 
 ```
-region = "<AWS REGION>"
+enable_monitoring     = false
+enable_patch_alerting = false
+
+## Monitoring
+
+### monitoring_role_name
+
+the `monitoring_role_name` is used to provide the name for the new iam role being created.
+
+the default value of `monitoring_role_name` is `Monitoring_Role`
+
 ```
+monitoring_role_name = "Monitoring_Role"
+```
+
+``variable type = string``
+
+### root_monitoring_account
+
+the `root_monitoring_account` is used to provide the central account ID used for monitoring
+
+```
+root_monitoring_account = "0123456789"
+```
+
+``variable type = string``
+
+### root_monitoring_role_name
+
+the `root_monitoring_role_name` is used to provide the central role that will assume role into the account for monitoring
+
+```
+root_monitoring_role_name = "root_monitoring_role"
+```
+
+``variable type = string``
+
+## Patch Alerting
+
+### patch_alerting_recepients
+
+the `patch_alerting_recepients` is used to provide the recepients that will be sent alerts if a `run_command` fails for patching
+
+```
+patch_alerting_recepients = "name@domain.com"
+```
+
+``variable type = string``
+
+### patch_alerting_sender
+
+the `patch_alerting_sender` is used to provide the sender for alerts if a `run_command` fails for patching
+
+```
+patch_alerting_sender = "name@domain.com"
+```
+
+``variable type = string``
+
 
 # Optional Variables
 
-## Resources to enable or disable
+### Resources to enable or disable
 
 By default, all resources are enabled or `true`
 
-### Backups
+#### Backups
 
 To disable backups, the following needs to be added into the module block
 
@@ -52,7 +117,7 @@ enable_backups = false
 
 ``variable type = bool``
 
-### Patching
+#### Patching
 
 To disabled patching, the following needs to be added into the module block
 ```
@@ -61,7 +126,7 @@ enable_patching = false
 
 ``variable type = bool``
 
-### Budget
+#### Budget
 
 To disable budgets. the following needs to be added into the module block.
 
@@ -71,9 +136,9 @@ enable_budget = false
 
 ``variable type = bool``
 
-# Backups
+## Backups
 
-## backup_name
+### backup_name
 
 ```
 backup_name = "AWS_BACKUP"
@@ -84,7 +149,7 @@ By default, the `backup_name` is `AWS_BACKUP`
 ``variable type = string``
 
 
-## backup_namespace
+### backup_namespace
 
 ```
 backup_namespace = "aws"
@@ -95,7 +160,7 @@ By default, the `backup_namespace` is `aws`
 
 ``variable type = string``
 
-## backup_stage
+### backup_stage
 
 ```
 backup_stage = "backups"
@@ -105,7 +170,7 @@ by default, the `backup_stage` is `backups`
 
 ``variable type = string``
 
-## backup_delimiter
+### backup_delimiter
 
 The delimiter is used to seperate the name, stage and namespace for readability
 
@@ -117,7 +182,7 @@ By default, the `backup_delimiter` is `-`
 
 ``variable type = string``
 
-## backup_schedule
+### backup_schedule
 
 The `backup_schedule` is a value to define the backup windows and the retention periods.
 
@@ -167,7 +232,7 @@ backup_schedule = {
 
 ``variable type = map``
 
-## backup_resources
+### backup_resources
 
 The `backup_resources` is a list of resources to include in the backup process.
 
@@ -180,7 +245,7 @@ backup_resources = ["*"]
 ``variable type = list(string)``
 
 
-## backup_selection_tags
+### backup_selection_tags
 
 The `backup_selection_tags` is used to search for resources with a specific tag.
 
@@ -211,9 +276,9 @@ variable type = list(object({
   }))
 ``
 
-# Patching
+## Patching
 
-## patching_install_maintenance_windows_targets
+### patching_install_maintenance_windows_targets
 
 the `patching_install_maintenance_windows_targets` is used to manually enter the instance ID's that are going to receive patches in the specified patch window.
 
@@ -230,7 +295,7 @@ variable type = list(object({
     })
 ``
 
-## approved_patches
+### approved_patches
 
 the `approved_patches` is used to supply a list of approved patches for the baseline.
 
@@ -242,7 +307,7 @@ approved_patches = []
 
 ``variable type = list(string)``
 
-## rejected_patches
+### rejected_patches
 
 the `rejected_patches` is used to supply a list of rejected patches for the baseline
 
@@ -254,7 +319,7 @@ rejected_patches = []
 
 ``variable type = list(string)``
 
-## custom_baselines
+### custom_baselines
 
 the `custom_baselines` is used to create a list of custome baselines you want to use instead of the default ones.
 
@@ -266,7 +331,7 @@ custom_baselines = []
 
 ``variable type = list(string)``
 
-## operating_system
+### operating_system
 
 The `operating_system` is used to supply the operating system the patches are applied to
 
@@ -278,7 +343,7 @@ operating_system = []
 
 ``variable type = list(string)``
 
-## patching_maintenance_windows
+### patching_maintenance_windows
 The `patching_maintenance_windows` is used to supply a list of patching maintenane window names.
 
 The default value for `patching_maintenance_windows` is `["PROD-AZ-A", "PROD-AZ-B", "PROD-AZ-C"]`
@@ -289,7 +354,7 @@ patching_maintenance_windows = ["PROD-AZ-A", "PROD-AZ-B", "PROD-AZ-C"]
 
 ``variable type = list(string)``
 
-## default_patch_groups
+### default_patch_groups
 
 The `default_patch_groups` is used if you would like to use the default patching groups
 
@@ -302,7 +367,7 @@ default_patch_groups = true
 ``variable type = bool``
 
 
-## default_patch_scan
+### default_patch_scan
 
 the `default_patch_scan` is used to enable the monthly "scanning" of all instances in the AWS account.
 
@@ -314,7 +379,7 @@ default_patch_scan = true
 
 ``variable type = bool``
 
-## patching_schedule_windows
+### patching_schedule_windows
 
 the `patching_schedule_windows` is used to suppy a list of cron values for the `patching_maintenance_windows` above
 
@@ -326,7 +391,7 @@ patching_schedule_windows = ["cron(0 18 ? * TUE *)", "cron(0 18 ? * WED *)", "cr
 
 ``variable type = list(string)``
 
-## patching_schedule_windows_scan
+### patching_schedule_windows_scan
 
 the `patching_schedule_windows_scan` is used to supply the `default_patch_scan` a cron time to run the scan.
 
@@ -338,7 +403,7 @@ patching_schedule_windows_scan = "cron(0 16 ? * SUN *)"
 
 ``variable type = string``
 
-## patching_approved_patches_compliance_level
+### patching_approved_patches_compliance_level
 
 the `patching_approved_patches_compliance_level` is used to supply the level of compliance for the patch baselines.
 
@@ -349,7 +414,7 @@ patching_approved_patches_compliance_level = "CRITICAL"
 ```
 ``variable type = string``
 
-## patching_reboot_option
+### patching_reboot_option
 
 the `patching_reboot_option` is used to determine if an instance is rebooted when a patch requires a reboot.
 
@@ -361,7 +426,7 @@ patching_reboot_option = "RebootIfNeeded"
 
 ``variable type = string``
 
-## patching_task_install_priority
+### patching_task_install_priority
 
 The `patching_task_install_priority` is used to determine the priority of the install patch run command.
 
@@ -373,7 +438,7 @@ patching_task_install_priority = 1
 
 ``variable type = number``
 
-## patching_max_concurrency
+### patching_max_concurrency
 
 the `patching_max_concurrency` is used to provide the number of instances able to be patched at one time.
 
@@ -385,7 +450,7 @@ patching_max_concurrency = 10
 
 ``variable type = number``
 
-## patching_max_errors
+### patching_max_errors
 
 The `patching_max_errors` is used to provide the maxumum number of failures before the patching process is terminated.
 
@@ -397,9 +462,9 @@ patching_max_errors = 10
 
 ``variable type = 10``
 
-# Budgets
+## Budgets
 
-## budget_comparison_operator
+### budget_comparison_operator
 
 the `budget_comparison_operator` is used to define the operator that determines when a budget has reached its threshold
 
@@ -411,7 +476,7 @@ budget_comparison_operator = "GREATER_THAN"
 
 ``variable type = string``
 
-## budget_threshold
+### budget_threshold
 
 the `budget_threshold` is used to determine the value required for the threshold
 
@@ -423,7 +488,7 @@ budget_threshold = 100
 
 ``variable type = number``
 
-## budget_threshold_type
+### budget_threshold_type
 
 the `budget_threshold_type` is used for the comparator to determine if the threshold has been met.
 
@@ -435,7 +500,7 @@ budget_threshold_type = "PERCENTAGE"
 
 ``variable type = string``
 
-## budget_notification_type
+### budget_notification_type
 
 the `budget_notification_type` is used to provide when the notification should be sent.
 
@@ -447,7 +512,7 @@ budget_notification_type = "FORECASTED"
 
 ``variable type = string``
 
-## budget_subscriber_email_addresses
+### budget_subscriber_email_addresses
 
 the `budget_subscriber_email_addresses` is used to provide an email address for when the threshold is met
 
@@ -459,7 +524,7 @@ budget_subscriber_email_addresses = ""
 
 ``variable type = string``
 
-## budget_unit 
+### budget_unit 
 
 the `budget_unit` is used to provide the currency used for the threshold.
 
@@ -471,7 +536,7 @@ budget_unit = "USD"
 
 ``variable type = string``
 
-## budget_time_unit 
+### budget_time_unit 
 
 The `budget_time_unit` is used to provide the time unit for measurement required for the threshold
 
@@ -483,7 +548,7 @@ budget_time_unit = "MONTHLY"
 
 ``variable type = string``
 
-## budget_time_period_start_default 
+### budget_time_period_start_default 
 
 the `budget_time_period_start_default` is used to if you want to use the default start time.
 
@@ -495,7 +560,7 @@ budget_time_period_start_default = true
 
 ``variable type = bool``
 
-## budget_time_period_start
+### budget_time_period_start
 
 if `budget_time_period_start_default` is `false` then `budget_time_period_start` is used to determine the start time.
 
@@ -507,7 +572,7 @@ budget_time_period_start = null
 
 ``variable type = string``
 
-## budget_limit
+### budget_limit
 
 the `budget_limit` is used to provide a number value for the threshold
 
@@ -519,7 +584,7 @@ budget_limit = 10000
 
 ``variable type = number``
 
-## budget_name 
+### budget_name 
 
 the `budget_name` is used to provide a name for the budget.
 
@@ -531,7 +596,7 @@ budget_name = "AWS_BUDGET"
 
 ``variable type = string``
 
-## budget_type
+### budget_type
 
 the `budget_type` is used to determine the type of budget notification.
 
@@ -542,4 +607,3 @@ budget_type = "COST"
 ```
 
 ``variable type = string``
-
