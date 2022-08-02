@@ -94,5 +94,5 @@ shell: .env
 
 import: .env init workspace
 	docker-compose run --rm envvars ensure
-	docker-compose run --rm terraform-utils sh -c 'cd ${TERRAFORM_ROOT_MODULE}; terraform state rm aws_vpc_peering_connection.mgmt'
+	docker-compose run --rm terraform-utils sh -c 'cd ${TERRAFORM_ROOT_MODULE}; terraform import module.onboarding.module.backup[0].aws_backup_vault.default[0] Default'
 .PHONY: import

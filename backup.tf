@@ -4,6 +4,7 @@ module "backup" {
   namespace          = var.backup_namespace
   stage              = var.backup_stage
   name               = var.backup_name
+  vault_name         = var.backup_name
   delimiter          = var.backup_delimiter
   schedule           = var.backup_schedule
   selection_tags     = var.backup_selection_tags
