@@ -18,6 +18,21 @@ variable "enable_backups" {
     default     = true
 }
 
+variable "enable_patch_alerting" {
+    type        = bool
+    description = "setup alerting for patching"
+    default     = true
+}
+
+variable "enable_monitoring" {
+    type        = bool
+    description = "Deploy role for monitoring"
+    default     = true
+}
+
+
+
+
 
 # required profile
 
@@ -275,4 +290,38 @@ variable "budget_type" {
     type        = string
     description = "budget type"
     default     = "COST"
+}
+
+# Monitoring
+
+variable "monitoring_role_name" {
+    description = "name for monitoring role"
+    default     = "Monitoring Role"
+    type        = string
+}
+
+variable "root_monitoring_account" {
+    description = "Account ID that contains the role that will be used to assume role into the monitoring role"
+    type        = string
+    default     = null
+}
+
+variable "root_monitoring_role_name" {
+    description = "Name of the role that will be assuming into the monitoring role"
+    type        = string
+    default     = null
+}
+
+# Patch Alerting
+
+variable "patch_alerting_recepients" {
+    type        = string
+    description = "email to receive patching alerts"
+    default     = ""
+}
+
+variable "patch_alerting_sender" {
+    type        = string
+    description = "email to send patching alerts"
+    default     = ""
 }
