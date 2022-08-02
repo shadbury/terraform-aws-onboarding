@@ -1,6 +1,6 @@
 module "backup" {
   count = var.enable_backups ? 1 : 0
-  source = "./modules/backup_module"
+  source = "./modules/backup"
   namespace          = var.backup_namespace
   stage              = var.backup_stage
   name               = var.backup_name
