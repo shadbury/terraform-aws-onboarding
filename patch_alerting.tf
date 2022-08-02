@@ -4,4 +4,5 @@ module "patch_alerting" {
 
   patch_alerting_recepients = var.patch_alerting_recepients
   patch_alerting_sender     = var.patch_alerting_sender
+  profile                   = var.profile
 }

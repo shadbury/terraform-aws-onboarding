@@ -9,3 +9,8 @@ variable "patch_alerting_sender" {
     description = "email to send patching alerts"
     default     = ""
 }
+
+variable "profile" {
+    type       = string
+    description = "Account to be used"
+}
