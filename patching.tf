@@ -19,4 +19,5 @@ module "patch-manager" {
   rejected_patches                    = var.rejected_patches
   custom_baselines                    = var.custom_baselines
   operating_system                    = var.operating_system
+  alert_email                         = var.patch_alerting_recepients
 }
