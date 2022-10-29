@@ -1,7 +1,7 @@
 module "patch-manager" {
   count = var.enable_patching ? 1 : 0
   source = "shadbury/patching/aws"
-  version = "1.0.0"
+  version = "1.0.1"
 
   client_name                         = var.profile
   maintenance_windows                 = var.patching_maintenance_windows
