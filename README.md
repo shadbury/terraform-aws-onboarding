@@ -5,7 +5,7 @@
 ```hcl
 module "onboarding" {
   source  = "shadbury/onboarding/aws"
-  version = "1.0.0"
+  version = <enter version>
 
   # required
 
